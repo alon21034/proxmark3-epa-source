@@ -208,10 +208,10 @@ int mifare_classic_authex(struct Crypto1State *pcs, uint32_t uid, uint8_t blockN
 	// Transmit reader nonce and reader answer
 	ReaderTransmitPar(mf_nr_ar, sizeof(mf_nr_ar), par);
 
-	Dbprintf("nr_ar = %x", mf_nr_ar);
-
 	// Receive 4 bit answer
 	len = ReaderReceive(receivedAnswer);
+	Dbprintf("nr_ar = %x", mf_nr_ar);
+
 	Dbprintf("len = %d, NACK = %x", len, receivedAnswer);
 	memcpy(tmp4, receivedAnswer, 4);
 	Dbprintf("tmp4 = %x", tmp4);
