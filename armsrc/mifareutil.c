@@ -200,9 +200,9 @@ int mifare_classic_authex(struct Crypto1State *pcs, uint32_t uid, uint8_t blockN
 	//  ar+parity
 	for (pos = 4; pos < 8; pos++)
 	{
-		nt = prng_successor(nt,8);
-		//mf_nr_ar[pos] = crypto1_byte(pcs,0x00,0) ^ (nt & 0xff);
-		mf_nr_ar[pos] = crypto1_byte(pcs,0x00,0) ^ (0x00000000 & 0xff);
+		//nt = prng_successor(nt,8);
+		nt = 0x0;
+		mf_nr_ar[pos] = crypto1_byte(pcs,0x00,0) ^ (nt & 0xff);
 		par = (par >> 1)| ( ((filter(pcs->odd) ^ oddparity(nt & 0xff)) & 0x01) * 0x80 );
 	}	
 		
