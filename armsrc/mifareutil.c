@@ -214,7 +214,7 @@ int mifare_classic_authex(struct Crypto1State *pcs, uint32_t uid, uint8_t blockN
 
 	Dbprintf("len = %d, NACK = %x", len, receivedAnswer);
 	memcpy(tmp4, receivedAnswer, 4);
-	Dbprintf("tmp4 = %x, %x, %x, %x", tmp4[0], tmp[1], tmp[2], tmp[3]);
+	Dbprintf("tmp4 = %x, %x, %x, %x", tmp4[0], tmp4[1], tmp4[2], tmp4[3]);
 
 	ntpp = prng_successor(nt, 32) ^ crypto1_word(pcs, 0,0);
 
