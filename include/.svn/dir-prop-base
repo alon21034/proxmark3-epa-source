@@ -1,0 +1,15 @@
+K 10
+svn:ignore
+V 69
+snooper
+cli
+flasher
+proxmark3
+prox.exe
+*.d
+*.s19
+*.elf
+*.o
+version.c
+
+END

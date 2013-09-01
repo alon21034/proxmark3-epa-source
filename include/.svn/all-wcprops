@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/628/branches/epa/include
+END
+legic_prng.h
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/628/branches/epa/include/legic_prng.h
+END
+usb_cmd.h
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/628/branches/epa/include/usb_cmd.h
+END
+hitag2.h
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/628/branches/epa/include/hitag2.h
+END
+at91sam7s512.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/628/branches/epa/include/at91sam7s512.h
+END
+config_gpio.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/628/branches/epa/include/config_gpio.h
+END
+proxmark3.h
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/628/branches/epa/include/proxmark3.h
+END
+crc.h
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/628/branches/epa/include/crc.h
+END
+common.h
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/628/branches/epa/include/common.h
+END
