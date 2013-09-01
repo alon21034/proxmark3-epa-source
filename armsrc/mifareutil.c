@@ -206,7 +206,8 @@ int mifare_classic_authex(struct Crypto1State *pcs, uint32_t uid, uint8_t blockN
 	}	
 		
 	// Transmit reader nonce and reader answer
-	ReaderTransmitPar(mf_nr_ar, sizeof(mf_nr_ar), par);
+	//ReaderTransmitPar(mf_nr_ar, sizeof(mf_nr_ar), par);
+	ReaderTransmitPar(mf_nr_ar, sizeof(mf_nr_ar), 0x00);
 
 	// Receive 4 bit answer
 	len = ReaderReceive(receivedAnswer);
