@@ -228,6 +228,8 @@ int mifare_classic_authex(struct Crypto1State *pcs, uint32_t uid, uint8_t blockN
 
 int mifare_classic_readblock(struct Crypto1State *pcs, uint32_t uid, uint8_t blockNo, uint8_t *blockData) 
 {
+
+	Dbprintf("test");
 	// variables
 	int len;	
 	uint8_t	bt[2];
