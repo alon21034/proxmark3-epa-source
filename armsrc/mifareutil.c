@@ -195,6 +195,7 @@ int mifare_classic_authex(struct Crypto1State *pcs, uint32_t uid, uint8_t blockN
 		
 	// Skip 32 bits in pseudo random generator
 	nt = prng_successor(nt,32);
+	Dbprintf("nt = %x", nt);
 
 	//  ar+parity
 	for (pos = 4; pos < 8; pos++)
