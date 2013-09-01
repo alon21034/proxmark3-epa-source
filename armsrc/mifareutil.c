@@ -208,6 +208,8 @@ int mifare_classic_authex(struct Crypto1State *pcs, uint32_t uid, uint8_t blockN
 	// Transmit reader nonce and reader answer
 	ReaderTransmitPar(mf_nr_ar, sizeof(mf_nr_ar), par);
 
+	Dbprintf("nr_ar = %x", mf_nr_ar);
+
 	// Receive 4 bit answer
 	len = ReaderReceive(receivedAnswer);
 	Dbprintf("len = %d, NACK = %x", len, receivedAnswer);
@@ -223,10 +225,6 @@ int mifare_classic_authex(struct Crypto1State *pcs, uint32_t uid, uint8_t blockN
 		if (MF_DBGLEVEL >= 1)	Dbprintf("Authentication failed. Card timeout.");
 		return 2;
 	}
-	
-	
-
-	
 	
 	if (ntpp != bytes_to_num(tmp4, 4)) {
 		if (MF_DBGLEVEL >= 1)	Dbprintf("Authentication failed. Error card response.");
