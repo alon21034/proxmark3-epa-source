@@ -210,7 +210,7 @@ int mifare_classic_authex(struct Crypto1State *pcs, uint32_t uid, uint8_t blockN
 
 	// Receive 4 bit answer
 	len = ReaderReceive(receivedAnswer);
-	Dbprintf("nr_ar = %x", mf_nr_ar);
+	Dbprintf("nr_ar = %x%x%x%x%x%x%x%x", mf_nr_ar[0], mf_nr_ar[1], mf_nr_ar[2], mf_nr_ar[3], mf_nr_ar[4], mf_nr_ar[5], mf_nr_ar[6], mf_nr_ar[7]);
 
 	Dbprintf("len = %d, NACK = %x", len, receivedAnswer);
 	memcpy(tmp4, receivedAnswer, 4);
