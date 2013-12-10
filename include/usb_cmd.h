@@ -136,6 +136,8 @@ typedef struct {
 #define CMD_MIFARE_WRITEBL                                                0x0622
 #define CMD_MIFARE_CHKKEYS                                                0x0623
 
+#define CMD_MIFARE_CUSTOM												  0x0624
+
 #define CMD_MIFARE_SNIFFER                                                0x0630
 
 #define CMD_UNKNOWN                                                       0xFFFF

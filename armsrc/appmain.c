@@ -767,6 +767,9 @@ void UsbPacketReceived(uint8_t *packet, int len)
 		case CMD_MIFARE_CHKKEYS:
 			MifareChkKeys(c->arg[0], c->arg[1], c->arg[2], c->d.asBytes);
 			break;
+		case CMD_MIFARE_CUSTOM:
+			MifareSetDbgLvl(c->arg[0], c->arg[1], c->arg[2], c->d.asBytes);
+			break;
 		case CMD_SIMULATE_MIFARE_CARD:
 			Mifare1ksim(c->arg[0], c->arg[1], c->arg[2], c->d.asBytes);
 			break;

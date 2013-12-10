@@ -931,6 +931,13 @@ int CmdHF14AMfChk(const char *Cmd)
   return 0;
 }
 
+int CmdHF14AMfCustom(const char *Cmd) {
+	PrintAndLog("Test");
+
+	UsbCommand c = {CMD_MIFARE_CUSTOM, {dbgMode, 0, 0}};
+  	SendCommand(&c);
+}
+
 int CmdHF14AMf1kSim(const char *Cmd)
 {
 	uint8_t uid[4] = {0, 0, 0, 0};
@@ -1672,6 +1679,7 @@ static command_t CommandTable[] =
   {"cgetsc",	CmdHF14AMfCGetSc,		0, "Read sector from magic Chinese card"},
   {"cload",		CmdHF14AMfCLoad,		0, "Load dump into magic Chinese card"},
   {"csave",		CmdHF14AMfCSave,		0, "Save dump from magic Chinese card into file or emulator"},
+  {"custom",	CmdHF14AMfCustom,       0, "Custom command"},
   {NULL, NULL, 0, NULL}
 };
 
