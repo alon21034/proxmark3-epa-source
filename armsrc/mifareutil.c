@@ -195,38 +195,28 @@ int mifare_classic_authex(struct Crypto1State *pcs, uint32_t uid, uint8_t blockN
 		
 	// Skip 32 bits in pseudo random generator
 	nt = prng_successor(nt,32);
-	Dbprintf("nt = %x", nt);
 
 	//  ar+parity
 	for (pos = 4; pos < 8; pos++)
 	{
-		//nt = prng_successor(nt,8);
-		nt = 0x0;
+		nt = prng_successor(nt,8);
 		mf_nr_ar[pos] = crypto1_byte(pcs,0x00,0) ^ (nt & 0xff);
 		par = (par >> 1)| ( ((filter(pcs->odd) ^ oddparity(nt & 0xff)) & 0x01) * 0x80 );
 	}	
 		
 	// Transmit reader nonce and reader answer
 	ReaderTransmitPar(mf_nr_ar, sizeof(mf_nr_ar), par);
-	//ReaderTransmitPar(mf_nr_ar, sizeof(mf_nr_ar), 0x00);
 
 	// Receive 4 bit answer
 	len = ReaderReceive(receivedAnswer);
-	Dbprintf("nr_ar = %x%x%x%x%x%x%x%x", mf_nr_ar[0], mf_nr_ar[1], mf_nr_ar[2], mf_nr_ar[3], mf_nr_ar[4], mf_nr_ar[5], mf_nr_ar[6], mf_nr_ar[7]);
-
-	Dbprintf("len = %d, NACK = %x", len, receivedAnswer);
-	memcpy(tmp4, receivedAnswer, 4);
-	Dbprintf("tmp4 = %x, %x, %x, %x", tmp4[0], tmp4[1], tmp4[2], tmp4[3]);
-
-	ntpp = prng_successor(nt, 32) ^ crypto1_word(pcs, 0,0);
-
-	Dbprintf("ntpp = %x, num = %x", ntpp, bytes_to_num(tmp4, 4));
-
 	if (!len)
 	{
 		if (MF_DBGLEVEL >= 1)	Dbprintf("Authentication failed. Card timeout.");
 		return 2;
 	}
+	
+	memcpy(tmp4, receivedAnswer, 4);
+	ntpp = prng_successor(nt, 32) ^ crypto1_word(pcs, 0,0);
 	
 	if (ntpp != bytes_to_num(tmp4, 4)) {
 		if (MF_DBGLEVEL >= 1)	Dbprintf("Authentication failed. Error card response.");
@@ -238,8 +228,6 @@ int mifare_classic_authex(struct Crypto1State *pcs, uint32_t uid, uint8_t blockN
 
 int mifare_classic_readblock(struct Crypto1State *pcs, uint32_t uid, uint8_t blockNo, uint8_t *blockData) 
 {
-
-	Dbprintf("test");
 	// variables
 	int len;	
 	uint8_t	bt[2];

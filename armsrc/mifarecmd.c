@@ -590,6 +590,13 @@ void MifareChkKeys(uint8_t arg0, uint8_t arg1, uint8_t arg2, uint8_t *datain)
 	MF_DBGLEVEL = OLD_MF_DBGLEVEL;	
 }
 
+void MifareCustom(uint32_t arg0, uint32_t arg1, uint32_t arg2, uint8_t *datain){
+    Dbprintf("test");
+    MF_DBGLEVEL = arg0;
+}
+
+
+
 //-----------------------------------------------------------------------------
 // MIFARE commands set debug level
 // 
@@ -615,6 +622,7 @@ void MifareEMemGet(uint32_t arg0, uint32_t arg1, uint32_t arg2, uint8_t *datain)
 	UsbCommand ack = {CMD_ACK, {arg0, arg1, 0}};
 
 	emlGetMem(ack.d.asBytes, arg0, arg1); // data, block num, blocks count
+
 
 	LED_B_ON();
 	UsbSendPacket((uint8_t *)&ack, sizeof(UsbCommand));
