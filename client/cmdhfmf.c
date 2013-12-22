@@ -10,6 +10,7 @@
 
 #include "cmdhfmf.h"
 #include "proxmark3.h"
+#include <time.h>
 
 static int CmdHelp(const char *Cmd);
 
@@ -955,9 +956,39 @@ int CmdHF14AMf1kSim(const char *Cmd)
 }
 
 int CmdHF14ACustom(const char *Cmd) {
-    PrintAndLog("Test");
-    UsbCommand c = {CMD_MIFARE_CUSTOM, {4, 0, 0}};
+
+    time_t now, after;
+    double sec;
+	uint8_t key[6] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+
+    PrintAndLog("Test print and log");
+    PrintAndLog("");
+    int times = param_get8(Cmd, 0);
+    int delay = param_get8(Cmd, 1);
+    
+    UsbCommand c = {CMD_MIFARE_CUSTOM, {times, delay, 0}};
+    PrintAndLog("times%d delay:%d\n", times, delay);
+    memcpy(c.d.asBytes, key, 6);
+    
+    time(&now);
     SendCommand(&c);
+    UsbCommand* resp = WaitForResponseTimeout(CMD_ACK, 60000);
+    time(&after);
+    
+    sec = difftime(now,after);
+    PrintAndLog("diff: %lf", sec);
+    
+    if (resp != NULL) {
+		uint8_t isOK  = resp->arg[0] & 0xff;
+		uint8_t ret1 = resp->arg[1] & 0xff;
+		uint8_t ret2 = resp->arg[2] & 0xff;
+
+		PrintAndLog("CantSelCard:%d NestSuc:%d AuthErr:%d NestErr%d", times*100-isOK-ret1-ret2, isOK, ret1, ret2);
+	} else {
+		PrintAndLog("Command execute timeout");
+	}
+
+    return 0;
 }
 
 int CmdHF14AMfDbg(const char *Cmd)

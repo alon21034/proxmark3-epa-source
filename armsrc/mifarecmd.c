@@ -513,6 +513,92 @@ void MifareNested(uint32_t arg0, uint32_t arg1, uint32_t arg2, uint8_t *datain)
   iso14a_set_tracing(TRUE);
 }
 
+void MifareCustom(uint8_t arg0, uint8_t arg1, uint8_t arg2, uint8_t *datain){
+    Dbprintf("test");
+    
+    // params
+	uint32_t times = arg0 *100;
+	uint32_t delay = arg1 *100;
+	uint64_t ui64Key = 0;
+	ui64Key = bytes_to_num(datain, 6);
+	uint32_t i, j, k;
+	
+	
+	Dbprintf("%d %d %08x", times, delay, ui64Key);
+	
+	// variables
+	byte_t isOK = 0;
+	//byte_t dataoutbuf[16];
+	uint8_t uid[8];
+	uint32_t cuid;
+	struct Crypto1State mpcs = {0, 0};
+	struct Crypto1State *pcs;
+	pcs = &mpcs;
+
+	// clear trace
+	iso14a_clear_trace();
+    //	iso14a_set_tracing(false);
+
+	iso14443a_setup();
+
+	LED_A_ON();
+	LED_B_OFF();
+	LED_C_OFF();
+
+    j = 0;
+    k = 0;
+    
+    if(!iso14443a_select_card(uid, NULL, &cuid)) {
+        //if (MF_DBGLEVEL >= 1)	
+        //    Dbprintf("Can't select card");
+    } else {
+    
+        for (i = 0 ; i < times ; ++i) {
+            SpinDelayUs(delay);
+	        
+            //Dbprintf("Select Card Successful");	
+            if(mifare_classic_auth(pcs, cuid, 0, 0, 0xffffffffffff, AUTH_FIRST)) {
+            	//if (MF_DBGLEVEL >= 1)	
+            	//    Dbprintf("Auth error");
+                j++;
+            } else {
+                //Dbprintf("Auth Successful");
+                if(mifare_classic_auth(pcs, cuid, 0, 0, 0xffffffffffff, AUTH_NESTED)) {
+                	//if (MF_DBGLEVEL >= 1)	
+                	//    Dbprintf("Nested Auth error");
+                    k++;
+                } else {
+                    //Dbprintf("Nested Auth Successful");
+                    isOK++;
+                }
+            };
+        }
+    }
+
+	
+	//  ----------------------------- crypto1 destroy
+	crypto1_destroy(pcs);
+	
+	if (MF_DBGLEVEL >= 2)	
+	    DbpString("READ BLOCK FINISHED");
+
+	// add trace trailer
+	memset(uid, 0x44, 4);
+	LogTrace(uid, 4, 0, 0, TRUE);
+
+	UsbCommand ack = {CMD_ACK, {isOK, j, k}};
+	
+	LED_B_ON();
+	UsbSendPacket((uint8_t *)&ack, sizeof(UsbCommand));
+	LED_B_OFF();
+
+
+    // Thats it...
+	FpgaWriteConfWord(FPGA_MAJOR_MODE_OFF);
+	LEDsoff();
+    //  iso14a_set_tracing(TRUE);
+}
+
 //-----------------------------------------------------------------------------
 // MIFARE check keys. key count up to 8. 
 // 
@@ -589,12 +675,6 @@ void MifareChkKeys(uint8_t arg0, uint8_t arg1, uint8_t arg2, uint8_t *datain)
 	// restore debug level
 	MF_DBGLEVEL = OLD_MF_DBGLEVEL;	
 }
-
-void MifareCustom(uint32_t arg0, uint32_t arg1, uint32_t arg2, uint8_t *datain){
-    Dbprintf("test");
-    MF_DBGLEVEL = arg0;
-}
-
 
 
 //-----------------------------------------------------------------------------
